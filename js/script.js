@@ -5,6 +5,11 @@ const todoList = document.querySelector("#todo-list");
 const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
+const searchInput = document.getElementById('search-input');
+const todosAll = document.querySelectorAll('#todo-list');
+const filterSelect = document.getElementById('filter-select');
+var todos = document.querySelectorAll('.todo');
+
 
 let oldInputValue;
 
@@ -12,6 +17,7 @@ let oldInputValue;
 const saveTodo = (text) => {
     const todo = document.createElement("div");
     todo.classList.add("todo");
+    todoList.style.display = '';
 
     const todoTitle = document.createElement("h3");
     todoTitle.innerHTML = text;
@@ -35,6 +41,8 @@ const saveTodo = (text) => {
     todoList.appendChild(todo);
     todoInput.value = ""; //    Limpa a lista
     todoInput.focus(); //   Deixa o foco no input
+
+    todos = document.querySelectorAll('.todo');
 };
 
 const toggleForms = () => {
@@ -113,3 +121,46 @@ editForm.addEventListener("submit", (e) => {
     }
     toggleForms();
 });
+
+//  Buscar tarefas
+searchInput.addEventListener('input', function (event) {
+    const searchString = searchInput.value.toLowerCase();
+
+    todos.forEach(todo => {
+        const todoText = todo.querySelector('h3').innerText.toLowerCase();
+        if (todoText.includes(searchString)) {
+            todo.style.display = '';
+        } else {
+            todo.style.display = 'none';
+        }
+    })
+});
+
+//  Filtrar tarefas
+filterSelect.addEventListener('change', function (event) {
+    const selectTask = filterSelect.value;
+    // const done = document.querySelectorAll('.done');
+
+    todos.forEach(todo => {
+        if (selectTask == 'all') {
+            todo.style.display = '';
+        } else {
+            if (selectTask == 'done' && todo.classList.contains("done")) {
+                todo.style.display = '';
+            } else if (selectTask == 'todo' && !todo.classList.contains("done")) {
+                todo.style.display = '';
+            } else {
+                todo.style.display = 'none';
+            }
+        }            
+    })
+});
+
+//  Verifica se existe tarefa na lista
+document.addEventListener("DOMContentLoaded", function() {
+    if(todoList.length > 0) {
+        todoList.style.display = '';
+    } else {
+        todoList.style.display = 'none';
+    }
+})

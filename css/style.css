@@ -139,7 +139,7 @@ input, select {
     justify-content: space-around;
     align-items: center;
     padding: 1rem;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #CCC;
     transition: .3s;
 }
 
